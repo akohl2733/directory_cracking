@@ -39,6 +39,8 @@ def runner(url):
         name = names[0].strip() if names else "Unknown"
         if " " not in name:
             continue
+        if "coordinator" in name.lower():
+            name = name.title().split('Coordinator')[0].strip()
 
         # search for titles we are interested in
         title = None

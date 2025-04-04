@@ -4,8 +4,8 @@ from test import runner
 
 # url for Jacksonville State's capital planning and facilities department
 # link = "https://www.jsu.edu/physicalplant/staff.html"
-link = "https://space.virginia.edu/"
-# link = "https://lsu.edu/pdc/about/staff.php"
+# link = "https://space.virginia.edu/"
+link = "https://lsu.edu/pdc/about/staff.php"
 
 runner(link)
 
