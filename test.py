@@ -24,6 +24,7 @@ def runner(url):
 
     # initialize a set to test multiples of peoples data
     tester = set()
+    email_test = set()
 
     # loop
     for staff in staff_listing:
@@ -32,33 +33,62 @@ def runner(url):
         text = staff.get_text(separator=" ").strip()
         if not text:
             continue
+
         doc = nlp(text)
 
         # search for prospects name
-        names = [ent.text for ent in doc.ents if ent.label_ == "PERSON"]
-        name = names[0].strip() if names else "Unknown"
-        if " " not in name:
-            continue
-        if "coordinator" in name.lower():
-            name = name.title().split('Coordinator')[0].strip()
-
-        # search for titles we are interested in
-        title = None
-        for line in text.split("\n"):
-            if title_keywords.search(line):
-                title = line.strip()
+        name = "Unknown"
+        for ent in doc.ents:
+            if ent.label_ == "PERSON" and " " in ent.text and len(ent.text.split()) <= 3:
+                name = ent.text.strip()
                 break
-        if title == None or len(title) > 60:  # in the case that there is no title - move on to next
+        
+        # skip if no valid name found
+        if name == "Unknown" or " " not in name:
             continue
+        
+        name = re.sub(r'\b(coordinator|director|manager|dr\.?|mr\.?|mrs\.?|ms\.?)\b', '', name, flags=re.IGNORECASE).strip()
+        name = ' '.join([part for part in name.split() if not part.isupper()])
 
-        # test if name has already been found
         if name in tester:
             continue
-        tester.add(name)           
+        tester.add(name) 
+
+        # search for titles we are interested in
+            # extract title - more flexible approach
+        title = None
+        lines = [line.strip() for line in text.split('\n') if line.strip()]
+        
+        # Look for title before or after name
+        for i, line in enumerate(lines):
+            if name in line:
+                # Check previous line for title
+                if i > 0 and title_keywords.search(lines[i-1]):
+                    title = lines[i-1]
+                # Check next line for title
+                elif i < len(lines)-1 and title_keywords.search(lines[i+1]):
+                    title = lines[i+1]
+                break
+        
+        # Fallback: search entire text for title-like patterns
+        if not title:
+            for line in lines:
+                if title_keywords.search(line) and len(line) < 100:  # limit length to avoid false positives
+                    title = line
+                    break
+
+        # skip if no relevant title found
+        if not title or len(title) > 100:
+            continue
+
+          
 
         # search for emails and phone numbers
         email_match = email_pattern.search(text)
         email = email_match.group() if email_match else "Not found"
+        if email in email_test:
+            continue
+        email_test.add(email) 
 
         phone_match = phone_pattern.search(text)
         phone = phone_match.group() if phone_match else "Not found"
@@ -66,7 +96,7 @@ def runner(url):
         if phone == "Not found" or email == "Not found":
             continue
 
-        # print results
+        # # print results
         print(f"Name: {name}")
         print(f"Title: {title if title else 'Not found'}")
         print(f"Email: {email}")
