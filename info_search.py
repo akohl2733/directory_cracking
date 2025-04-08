@@ -1,5 +1,6 @@
 def find_staff_blocks(soup):
 
+    # initialize empty list
     staff_blocks = []
 
     # Common class names
@@ -31,6 +32,7 @@ def find_staff_blocks(soup):
         if blocks:
             staff_blocks.extend(blocks)
 
+    # check if common id names exist
     for ids in possible_ids:
         container = soup.find(id=ids)
         if container:
@@ -42,12 +44,13 @@ def find_staff_blocks(soup):
         if any(keyword in text for keyword in ['@', 'email', 'phone', 'title', 'director', 'manager', 'staff', 'office', 'department']):
             staff_blocks.append(table)
 
+    # typical jobs to look for in divs
     jobs = ['director', '.edu', 'campus', 
             'facilities', 'staff', 'space',
             'real estate', 'provost', 'cfo',
             'executive', 'capital', 'facility']
 
-    # Fallback: look for divs with likely keywords
+    # Final: look for divs with likely keywords
     fallback_blocks = []
     for div in soup.find_all("div"):
         text = div.get_text().lower()
@@ -56,6 +59,7 @@ def find_staff_blocks(soup):
     if fallback_blocks:
         staff_blocks.extend(fallback_blocks)
 
+    # check for duplicates and return unique
     seen = set()
     unique_blocks = []
     for block in staff_blocks:
@@ -64,4 +68,4 @@ def find_staff_blocks(soup):
             seen.add(block_id)
             unique_blocks.append(block)
 
-    return staff_blocks
+    return unique_blocks

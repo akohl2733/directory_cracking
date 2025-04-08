@@ -5,6 +5,7 @@ from test import runner
 # link = "https://www.jsu.edu/physicalplant/staff.html"
 # link = "https://space.virginia.edu/"
 link = "https://lsu.edu/pdc/about/staff.php"
+# link = "https://facilities.lehigh.edu/capital-projects-and-planning/planning-design-construction"
 
 runner(link)
 
