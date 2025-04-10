@@ -24,6 +24,7 @@ def runner(url):
 
     # initialize a set to test multiples of peoples data
     tester = set()
+    res = []
     email_test = set()
 
     # loop through each block found by find_staff_blocks()
@@ -103,8 +104,10 @@ def runner(url):
             email_test.add(email)
 
             # Output
-            print(f"Name: {name}")
-            print(f"Title: {title}")
-            print(f"Email: {email}")
-            print(f"Phone: {phone}")
-            print("-" * 40)
+            res.append({
+                "name": name,
+                "title": title,
+                "email": email,
+                "phone": phone})
+            
+        return res
