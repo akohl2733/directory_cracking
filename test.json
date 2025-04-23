@@ -1,0 +1,17 @@
+{
+    "entries": [
+      {
+        "name": "Jane Doe",
+        "title": "Director of Planning",
+        "email": "jdoe@example.com",
+        "phone": "(123) 456-7890"
+      },
+      {
+        "name": "John Smith",
+        "title": "Facilities Manager",
+        "email": "jsmith@example.com",
+        "phone": "555-321-9876"
+      }
+    ]
+  }
+  

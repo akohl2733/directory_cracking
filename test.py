@@ -104,10 +104,16 @@ def runner(url):
             email_test.add(email)
 
             # Output
+            # print(f"Name: {name}")
+            # print(f"Title: {title}")
+            # print(f"Email: {email}")
+            # print(f"Phone: {phone}")
+            # print("-" * 40)
+
             res.append({
                 "name": name,
                 "title": title,
                 "email": email,
                 "phone": phone})
             
-        return res
+    return res
