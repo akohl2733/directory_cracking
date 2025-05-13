@@ -4,8 +4,8 @@ from mysql.connector import Error
 # Connection details
 host = 'localhost'
 database = 'staffdb'
-user = ''
-password = ''
+user = 'root'
+password = 'root'
 
 def get_connection():
     try:
