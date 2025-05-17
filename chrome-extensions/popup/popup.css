@@ -1,6 +1,53 @@
+#extension-container {
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    z-index: 9999;
+    width: 400px;
+    background-color: rgb(252, 252, 252);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 8px;
+}
+
+#extension-wrapper {
+  border-radius: 16px;
+  overflow: hidden; /* ensures inner content doesn't break the roundness */
+  background-color: rgba(100, 99, 99, 0.469);
+  padding: 16px;
+  background-image: url("images/images.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+#results {
+    min-height: 100px;
+    min-width: 225px;
+    margin-bottom: 20px;
+}
+#results:empty::before {
+  content: "No contacts yet.";
+  display: block;
+  text-align: center;
+  color: gray;
+  padding: 20px;
+}
+
+#root {
+    height: 100%;
+}
+
 .title {
-    font-family: Georgia;
-    text-align: center
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    color: rgb(254, 143, 57);
+    text-shadow: 1px 1px 2px #060606;  
+}
+
+#manual-input {
+    text-shadow: 1px, 1px, 2px, black;
+    text-align: center;
 }
 
 .contacts {
@@ -17,11 +64,8 @@
     padding: 5px;
     background-color: white;
 }
-
 .indv:hover {
     background-color: lightblue;
-    font-weight: bolder;
-    padding: 15px;
 }
 
 input {
@@ -30,4 +74,8 @@ input {
   margin: 5px 0;
   box-sizing: border-box;
   border-radius: 8px;
+}
+
+body {
+    background-color: rgb(237, 236, 236);
 }

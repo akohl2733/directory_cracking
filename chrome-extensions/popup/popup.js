@@ -1,3 +1,7 @@
+const container = document.createElement("div");
+container.id = "extension-container";
+document.body.appendChild(container);
+
 document.getElementById("submit").addEventListener("click", () => {
     const name = document.getElementById("name").value.trim();
     const title = document.getElementById("title").value.trim();
@@ -72,6 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     resultsDiv.appendChild(personDiv);  
 
                     document.getElementById(`submit-${index}`).addEventListener("click", () => {
+                        const indvDiv = personDiv.querySelector(".indv");
+                        const submitBtn = document.getElementById(`submit-${index}`);
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = "Submitted";
+                        submitBtn.style.cursor = "not-allowed";
+                        submitBtn.style.opacity = "0.6";  // optional: visually gray it out
+                        indvDiv.style.backgroundColor = "lightgray";
                         fetch("https://localhost:5000/submit", {
                             method: "POST",
                             headers: {"Content-Type": "application/json"},
