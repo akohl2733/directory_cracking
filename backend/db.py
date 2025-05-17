@@ -1,36 +1,39 @@
 import mysql.connector
 from mysql.connector import Error
+import os
 
-# Connection details
-host = 'localhost'
-database = 'staffdb'
-user = 'root'
-password = 'root'
+# Azure MySQL Connection Details
+host = os.getenv('universityscraper-server.mysql.database.azure.com', 'universityscraper-server.mysql.database.azure.com')
+database = os.getenv('universityscraper-database', 'staffdb')
+user = os.getenv('IpB3BDgu$VhQGBme', 'akohlscrapedb@universityscraper-server')
+password = os.getenv('xdizdhgxyp', 'Blue1234?')
 
 def get_connection():
     try:
         connection = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='root',
-            database='staffdb',
-            auth_plugin='mysql_native_password'  # Add this line
+            host=host,
+            user=user,
+            password=password,
+            database=database,
+            ssl_ca=None,  # Optional: specify path to SSL cert if needed
+            ssl_disabled=True  # Set to False if you require SSL
         )
         return connection
     except Error as e:
-        print(f"Error connecting to MySQL: {e}")
+        print(f"Error connecting to Azure MySQL: {e}")
         raise
 
 def test_connection():
     try:
         conn = get_connection()
         if conn.is_connected():
-            print("MySQL connection successful!")
+            print("Azure MySQL connection successful!")
         conn.close()
     except Exception as e:
         print(f"Error: {e}")
 
-test_connection()
+# Optional: run to test immediately
+# test_connection()
 
 def insert_rec(entry):
     conn = None
@@ -57,7 +60,7 @@ def insert_rec(entry):
         ''', (entry.get('name'), entry.get('title'), entry.get('email'), entry.get('phone')))
 
         conn.commit()
-        
+
     except Error as e:
         print(f"Error inserting record: {e}")
         if conn:
