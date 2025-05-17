@@ -6,9 +6,16 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/api/store', methods=['POST'])
+def store():
+    data = request.json
+    print(data)
+    return jsonify({'status': 'success'})
+
 @app.route('/scrape', methods=['POST'])
 def scrape():
     url = request.json.get('url')
+    print("Scraping URL: ", url)
     if not url:
         return jsonify({'Error': "No URL provided"}), 400
     try:
@@ -31,4 +38,4 @@ def submit():
     
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000, ssl_context=('cert.pem', 'key.pem'))

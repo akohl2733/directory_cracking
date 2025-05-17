@@ -1,8 +1,10 @@
 {
+    "manifest_version": 3,
     "name": "University Contact Scraper",
     "version": "1.0",
     "description": "Scraping contact information for prospects",
     "permissions": [
+        "tabs",
         "activeTab", 
         "scripting"
     ],
@@ -12,10 +14,10 @@
     "background": {
         "service_worker": "background.js"
     },
-    "content-scripts": [
+    "content_scripts": [
         {
-            "matches": ["all_urls"],
-            "js": "content.js"
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
         }
     ],
     "action": {

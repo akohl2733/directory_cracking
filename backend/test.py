@@ -13,6 +13,7 @@ def runner(url):
     # Get Page
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
+    print("Fetched HTML preview: ", response.text[:500])
 
     # Target keywords and patterns (case-insensitive)
     title_keywords = re.compile(r'executive|planning|space|facilities|campus|Director|asset|capital|real estate', re.IGNORECASE)
