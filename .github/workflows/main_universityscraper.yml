@@ -68,4 +68,4 @@ jobs:
         with:
           app-name: 'UniversityScraper'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9FB8727A82BA4FFFA76DC24C64BF3251 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_276859B097E445FE8F699E4E46F5AE29 }}
