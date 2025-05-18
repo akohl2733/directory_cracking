@@ -15,7 +15,7 @@ def store():
 @app.route('/scrape', methods=['POST'])
 def scrape():
     url = request.json.get('url')
-    print("Scraping URL: ", url)
+    print("Scraping url: ", url)
     if not url:
         return jsonify({'Error': "No URL provided"}), 400
     try:
