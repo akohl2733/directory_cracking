@@ -15,7 +15,7 @@ document.getElementById("submit").addEventListener("click", () => {
 
     const entry = {name, title, email, phone};
 
-    fetch("universityscraper-gqasazcshnd9e8a8.canadacentral-01.azurewebsites.net/submit", {
+    fetch("https://universityscraper-gqasazcshnd9e8a8.canadacentral-01.azurewebsites.net/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify({ entries: [entry] })
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         const url = tabs[0].url;
 
-        fetch("universityscraper-gqasazcshnd9e8a8.canadacentral-01.azurewebsites.net/scrape", {
+        fetch("https://universityscraper-gqasazcshnd9e8a8.canadacentral-01.azurewebsites.net/scrape", {
             method: "POST",
             headers: { "Content-Type": "application/json"},
             body: JSON.stringify({url: url})
