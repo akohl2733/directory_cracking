@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from test import runner
-from db import insert_rec
+from backend.test import runner
+from backend.db import insert_rec
 from flask_cors import CORS
 
 app = Flask(__name__)
