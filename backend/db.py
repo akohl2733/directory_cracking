@@ -10,6 +10,7 @@ password = os.getenv('AZURE_MYSQL_PASSWORD', 'Blue1234?')
 
 def get_connection():
     try:
+        print(f"Connecting to: {host}")  # TEMP debug
         connection = mysql.connector.connect(
             host=host,
             database=database,
@@ -20,6 +21,7 @@ def get_connection():
     except Error as e:
         print(f"Error connecting to MySQL: {e}")
         raise
+
 
 def insert_rec(entry):
     conn = None
