@@ -4,8 +4,14 @@ import re
 import spacy
 from .info_search import find_staff_blocks
 from .cleaning import extract_name, remove_names
+from spacy.cli import download
 
-nlp = spacy.load("en_core_web_sm")
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
+
 
 def runner(url):
     headers = {"User-Agent": "Mozilla/5.0"}  # avoid bot detection

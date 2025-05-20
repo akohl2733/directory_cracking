@@ -1,5 +1,7 @@
-Flask
-mysql-connector-python
-python-dotenv
-bs4
+flask
+flask-cors
+gunicorn
 spacy
+requests
+beautifulsoup4
+pyodbc
