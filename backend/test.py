@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import spacy
-from info_search import find_staff_blocks
-from cleaning import extract_name, remove_names
+from .info_search import find_staff_blocks
+from .cleaning import extract_name, remove_names
 
 nlp = spacy.load("en_core_web_sm")
 
