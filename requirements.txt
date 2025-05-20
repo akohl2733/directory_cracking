@@ -5,3 +5,4 @@ spacy
 requests
 beautifulsoup4
 pyodbc
+mysql-connector-python
