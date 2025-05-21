@@ -2,10 +2,20 @@ from flask import Flask, request, jsonify
 from backend.test import runner
 from backend.db import insert_rec, get_connection
 from flask_cors import CORS
+import socket
+
 
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/dnscheck", methods=["GET"])
+def dns_check():
+    try:
+        ip = socket.gethostbyname('universityscraper-server.privatelink.mysql.database.azure.com')
+        return jsonify({"success": f"DNS resolved to {ip}"})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+        
 @app.route('/api/store', methods=['POST'])
 def store():
     data = request.json
