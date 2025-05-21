@@ -8,6 +8,9 @@ database = os.getenv('AZURE_MYSQL_NAME', 'universityscraper-database')
 user = os.getenv('AZURE_MYSQL_USER', 'akohlscrapedb@universityscraper-server')
 password = os.getenv('AZURE_MYSQL_PASSWORD', 'Blue1234?')
 
+print("🌐 DEBUG: MySQL host being used =", host)
+
+
 def get_connection():
     try:
         print(f"Connecting to: {host}")  # TEMP debug
