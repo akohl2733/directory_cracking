@@ -5,7 +5,7 @@ from mysql.connector import Error
 # Azure MySQL Connection Details
 host = os.getenv('AZURE_MYSQL_HOST', 'universityscraper.privatelink.mysql.database.azure.com')
 database = os.getenv('AZURE_MYSQL_NAME', 'universityscraper-database')
-user = os.getenv('AZURE_MYSQL_USER', 'xdizdhgxyp') + '@universityscraper'
+user = os.getenv('AZURE_MYSQL_USER', 'xdizdhgxyp@universityscraper')
 password = os.getenv('AZURE_MYSQL_PASSWORD', 'IpB3BDgu$VhQGBme')
 
 def get_connection():
