@@ -11,11 +11,11 @@ CORS(app)
 @app.route("/dnscheck", methods=["GET"])
 def dns_check():
     try:
-        ip = socket.gethostbyname('universityscraper-server.privatelink.mysql.database.azure.com')
+        ip = socket.gethostbyname('universityscraper.privatelink.mysql.database.azure.com')
         return jsonify({"success": f"DNS resolved to {ip}"})
     except Exception as e:
         return jsonify({"error": str(e)})
-        
+
 @app.route('/api/store', methods=['POST'])
 def store():
     data = request.json

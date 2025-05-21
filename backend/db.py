@@ -3,9 +3,9 @@ import os
 from mysql.connector import Error
 
 # Azure MySQL Connection Details
-host = os.getenv('AZURE_MYSQL_HOST', 'universityscraper-server.privatelink.mysql.database.azure.com')
+host = os.getenv('AZURE_MYSQL_HOST', 'universityscraper.privatelink.mysql.database.azure.com')
 database = os.getenv('AZURE_MYSQL_NAME', 'universityscraper-database')
-user = os.getenv('AZURE_MYSQL_USER', 'akohlscrapedb@universityscraper-server')
+user = os.getenv('AZURE_MYSQL_USER', 'akohlscrapedb@universityscraper')
 password = os.getenv('AZURE_MYSQL_PASSWORD', 'Blue1234?')
 
 print("🌐 DEBUG: MySQL host being used =", host)
