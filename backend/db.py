@@ -1,12 +1,23 @@
 import mysql.connector
 import os
 from mysql.connector import Error
+import logging
+import sys
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Explicitly write to stdout so Azure Log Stream can see it
+handler = logging.StreamHandler(sys.stdout)
+formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 # Azure MySQL Connection Details
-host = os.getenv('AZURE_MYSQL_HOST', 'universityscraper.privatelink.mysql.database.azure.com')
-database = os.getenv('AZURE_MYSQL_NAME', 'universityscraper-database')
-user = os.getenv('AZURE_MYSQL_USER', 'xdizdhgxyp') + '@universityscraper'
-password = os.getenv('AZURE_MYSQL_PASSWORD', 'IpB3BDgu$VhQGBme')
+host = os.getenv('AZURE_MYSQL_HOST')
+user = os.getenv('AZURE_MYSQL_USER')
+password = os.getenv('AZURE_MYSQL_PASSWORD')
+database = os.getenv('AZURE_MYSQL_NAME')
 
 def get_connection():
     try:
@@ -24,11 +35,11 @@ def get_connection():
         raise
 
 def insert_rec(entry):
-    conn = None
-    cursor = None
     try:
         conn = get_connection()
         cursor = conn.cursor()
+
+        logger.info(f"Inserting entry: {entry}")
 
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS Staff (
@@ -43,16 +54,16 @@ def insert_rec(entry):
         cursor.execute('''
             INSERT INTO Staff (name, title, email, phone)
             VALUES (%s, %s, %s, %s)
-        ''', (entry.get('name'), entry.get('title'), entry.get('email'), entry.get('phone')))
+        ''', (
+            entry.get("name"),
+            entry.get("title"),
+            entry.get("email"),
+            entry.get("phone")
+        ))
 
         conn.commit()
-    except Error as e:
-        print(f"Error inserting record: {e}")
-        if conn:
-            conn.rollback()
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        logger.error(f"Insert error: {e}")
         raise
-    finally:
-        if cursor:
-            cursor.close()
-        if conn and conn.is_connected():
-            conn.close()

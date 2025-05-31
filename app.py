@@ -3,15 +3,28 @@ from backend.test import runner
 from backend.db import insert_rec, get_connection
 from flask_cors import CORS
 import socket
+import os
+import sys
+import traceback
+import logging
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+port = int(os.environ.get("PORT", 80))
 
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def index():
+    return 'UniversityScraper backend is running!'
+
 @app.route("/dnscheck", methods=["GET"])
 def dns_check():
     try:
-        ip = socket.gethostbyname('universityscraper.privatelink.mysql.database.azure.com')
+        ip = socket.gethostbyname('directoryscraper-mysql.mysql.database.azure.com')
         return jsonify({"success": f"DNS resolved to {ip}"})
     except Exception as e:
         return jsonify({"error": str(e)})
@@ -34,17 +47,20 @@ def scrape():
     except Exception as e:
         return jsonify({'Error': str(e)}), 500
 
-@app.route('/submit', methods=['POST'])
+@app.route("/submit", methods=["POST"])
 def submit():
-    data = request.json.get('entries', [])
-    if not data:
-        return jsonify({"error": "No entries provided"}), 400
     try:
-        for entry in data:
-            insert_rec(entry)  # insert each into Azure SQL
-        return jsonify({"status": "success"})
+        data = request.get_json()
+        entries = data.get("entries", [])
+        for entry in entries:
+            insert_rec(entry)
+        return jsonify({"status": "success"}), 200
     except Exception as e:
+        print("Submission error:", e)
         return jsonify({"error": str(e)}), 500
+
+
+
 
 @app.route("/databases", methods=["GET"])
 def list_databases():
@@ -61,4 +77,4 @@ def list_databases():
     
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000, ssl_context=('cert.pem', 'key.pem'))
+    app.run(debug=True, host='0.0.0.0', port=port)
