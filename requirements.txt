@@ -1,7 +1,0 @@
-flask
-flask-cors
-gunicorn
-spacy
-requests
-beautifulsoup4
-pyodbc

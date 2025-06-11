@@ -1,7 +1,7 @@
 const container = document.createElement("div");
 container.id = "extension-container";
 document.body.appendChild(container);
-const baseURL = "https://universityscraper-app-afetgrbtfedkdfgt.centralus-01.azurewebsites.net/";
+const baseURL = "http://localhost:80";
 
 
 document.getElementById("submit").addEventListener("click", () => {
