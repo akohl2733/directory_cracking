@@ -11,9 +11,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
-port = int(os.environ.get("PORT", 80))
-
 app = Flask(__name__)
 CORS(app)
 
@@ -60,8 +57,6 @@ def submit():
         return jsonify({"error": str(e)}), 500
 
 
-
-
 @app.route("/databases", methods=["GET"])
 def list_databases():
     try:
@@ -77,4 +72,4 @@ def list_databases():
     
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, host='0.0.0.0', port=5001)

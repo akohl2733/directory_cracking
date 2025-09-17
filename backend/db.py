@@ -1,69 +1,43 @@
-import mysql.connector
-import os
-from mysql.connector import Error
-import logging
-import sys
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# connect to the database
+engine = create_engine("postgresql+psycopg2://akohl:secret@localhost:5432/prospecting")
 
-# Explicitly write to stdout so Azure Log Stream can see it
-handler = logging.StreamHandler(sys.stdout)
-formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+# declare table structure as a Python class
+Base = declarative_base()
 
-# Azure MySQL Connection Details
-host = os.getenv('AZURE_MYSQL_HOST')
-user = os.getenv('AZURE_MYSQL_USER')
-password = os.getenv('AZURE_MYSQL_PASSWORD')
-database = os.getenv('AZURE_MYSQL_NAME')
+class Prospect(Base):
+    __tablename__ = "higher_education"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    title = Column(String)
+    email = Column(String)
+    phone = Column(String)
 
-def get_connection():
+
+# Create table if not created yet
+Base.metadata.create_all(engine)
+
+# create session
+Session = sessionmaker(bind=engine)
+
+def insert_rec(entry: dict):
+    session = Session()
     try:
-        print(f"🌐 Connecting to: {host} as {user}")
-        connection = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database,
-            ssl_disabled=False  # Azure MySQL requires SSL by default
-        )
-        return connection
-    except Error as e:
-        print(f"Error connecting to MySQL: {e}")
+        # insert row
+        new_prospect = Prospect(            
+                    name=entry.get("name"),
+                    title=entry.get("title"),
+                    email=entry.get("email"),
+                    phone=entry.get("phone")
+                    )
+        session.add(new_prospect)
+        session.commit()
+        print(f"Row inserted with ID: {new_prospect.id}")
+        return new_prospect.id
+    except:
+        session.rollback()
         raise
-
-def insert_rec(entry):
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
-
-        logger.info(f"Inserting entry: {entry}")
-
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS Staff (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(255),
-                title VARCHAR(255),
-                email VARCHAR(255),
-                phone VARCHAR(255)
-            )
-        ''')
-
-        cursor.execute('''
-            INSERT INTO Staff (name, title, email, phone)
-            VALUES (%s, %s, %s, %s)
-        ''', (
-            entry.get("name"),
-            entry.get("title"),
-            entry.get("email"),
-            entry.get("phone")
-        ))
-
-        conn.commit()
-        cursor.close()
-        conn.close()
-    except Exception as e:
-        logger.error(f"Insert error: {e}")
-        raise
+    finally:
+        session.close()
