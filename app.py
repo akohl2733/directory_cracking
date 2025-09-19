@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
-from backend.test import runner
-from backend.db import insert_rec, get_connection
+from backend import insert_rec, runner
 from flask_cors import CORS
 import socket
 import os
@@ -55,20 +54,6 @@ def submit():
     except Exception as e:
         print("Submission error:", e)
         return jsonify({"error": str(e)}), 500
-
-
-@app.route("/databases", methods=["GET"])
-def list_databases():
-    try:
-        conn = get_connection()
-        cursor = conn.cursor()
-        cursor.execute("SHOW DATABASES;")
-        dbs = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return jsonify([db[0] for db in dbs])
-    except Exception as e:
-        return jsonify({"error": str(e)})
     
 
 if __name__ == '__main__':

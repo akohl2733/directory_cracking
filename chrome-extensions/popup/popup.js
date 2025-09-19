@@ -1,7 +1,7 @@
 const container = document.createElement("div");
 container.id = "extension-container";
 document.body.appendChild(container);
-const baseURL = "https://universityscraper-app-afetgrbtfedkdfgt.centralus-01.azurewebsites.net/";
+const baseURL = "http://172.30.109.110:5001";
 
 
 document.getElementById("submit").addEventListener("click", () => {
@@ -48,6 +48,7 @@ document.getElementById("clear-manual").addEventListener("click", () => {
     document.getElementById('phone').value = "";
 });
 
+// scrape once webpage loads behind extension
 document.addEventListener("DOMContentLoaded", () => {
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         const url = tabs[0].url;

@@ -1,0 +1,1 @@
+sudo -u postgres psql -d prospecting -c "SELECT * FROM higher_education"
