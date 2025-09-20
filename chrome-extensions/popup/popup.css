@@ -41,8 +41,11 @@
 .title {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
-    color: rgb(254, 143, 57);
-    text-shadow: 1px 1px 2px #060606;  
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 0 #060606, 
+        1px -1px 0 #060606, 
+        -1px -1px 0 #060606, 
+        -1px 1px 0 #060606;  
 }
 
 #manual-input {
